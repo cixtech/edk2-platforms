@@ -13,6 +13,7 @@
 #include <Uefi.h>
 #include <Uefi/UefiSpec.h>
 #include <VerifiedBoot.h>
+#include <avb/libavb_ab/ab_flow.h>
 
 /* Volume Label size 11 chars, round off to 16 */
 #define VOLUME_LABEL_SIZE  16
@@ -614,6 +615,24 @@ UpdatePartitionEntries (
   DEBUG ((EFI_D_ERROR, "UpdatePartitionEntries get gPartitionCount = %d\n", gPartitionCount));
 }
 
+EFI_STATUS
+GetPartitionEntrybyCount (
+  UINT32               PartitionCount,
+  EFI_PARTITION_ENTRY  *PtnEntry
+  )
+{
+  if (PtnEntry == NULL) {
+    return EFI_INVALID_PARAMETER;
+  }
+
+  if ((PartitionCount > 0) && (PartitionCount <= gPartitionCount)) {
+    gBS->CopyMem (PtnEntry, &gPtnEntries[PartitionCount], sizeof (EFI_PARTITION_ENTRY));
+    return EFI_SUCCESS;
+  }
+
+  return EFI_NOT_FOUND;
+}
+
 BOOLEAN
 PartitionHasMultiSlot (
   CONST CHAR16  *Pname
@@ -841,6 +860,225 @@ WriteGpt (
     "*************** New partition Table Dump End "
     "*******************\n"
     ));
+
+ #ifdef USERDATA_RESIZE_SUPPORT
+  ResizeGpt ();
+ #endif
+  return Status;
+}
+
+EFI_STATUS
+ResizePartitionEntry (
+  UINT8   *GptEntries,
+  UINT32  num_entries,
+  UINT32  entry_size,
+  UINT64  last_usable_lba,
+  CHAR16  *part_name
+  )
+{
+  EFI_PARTITION_ENTRY  *gpt_entry = (EFI_PARTITION_ENTRY *)GptEntries;
+  INT32                last_idx   = -1;
+
+  for (UINT32 i = 0; i < num_entries; ++i) {
+    BOOLEAN  is_empty = TRUE;
+    if ((UINT32)gpt_entry[i].PartitionTypeGUID.Data1 != 0) {
+      is_empty = FALSE;
+    }
+
+    if (!is_empty) {
+      last_idx = i;
+    }
+  }
+
+  if (last_idx < 0) {
+    DEBUG ((EFI_D_ERROR, "No valid partition found!\n"));
+    return EFI_NOT_FOUND;
+  }
+
+  CHAR16  *entry_name = (CHAR16 *)gpt_entry[last_idx].PartitionName;
+
+  if (StrCmp (entry_name, part_name) == 0) {
+    gpt_entry[last_idx].EndingLBA = last_usable_lba;
+    DEBUG ((EFI_D_INFO, "Expand userdata partition to last_usable_lba: %llu\n", last_usable_lba));
+  } else {
+    DEBUG ((EFI_D_ERROR, "Last partition is not userdata, skip expand.\n"));
+  }
+
+  return EFI_SUCCESS;
+}
+
+EFI_STATUS
+ResizeGptHeader (
+  VOID
+  )
+{
+  EFI_STATUS                  Status;
+  EFI_BLOCK_IO_PROTOCOL       *BlockIo = NULL;
+  HandleInfo                  BlockIoHandle[MAX_HANDLEINF_LST_SIZE];
+  UINT32                      MaxHandles    = MAX_HANDLEINF_LST_SIZE;
+  EFI_HANDLE                  *Handle       = NULL;
+  UINT8                       *GptHeaderBuf = NULL;
+  EFI_PARTITION_TABLE_HEADER  *GptHeader;
+  UINT8                       *GptEntries;
+  UINT32                      BlockSize;
+  UINT32                      GptSize;
+
+  Status = GetStorageHandle (BlockIoHandle, &MaxHandles);
+  if (EFI_ERROR (Status) || (MaxHandles != 1)) {
+    DEBUG ((EFI_D_ERROR, "ResizeGptHeader: GetStorageHandle failed: %d, handles: %d\n", Status, MaxHandles));
+    return Status;
+  }
+
+  BlockIo      = BlockIoHandle[0].BlkIo;
+  BlockSize    = BlockIo->Media->BlockSize;
+  GptSize      = BlockSize + MAX_PARTITION_ENTRIES_SIZE;
+  GptHeaderBuf = AllocateZeroPool (GptSize);
+  if (GptHeaderBuf == NULL) {
+    DEBUG ((EFI_D_ERROR, "ResizeGptHeader: Failed to allocate memory for GPT header\n"));
+    return EFI_OUT_OF_RESOURCES;
+  }
+
+  Status = BlockIo->ReadBlocks (
+                      BlockIo,
+                      BlockIo->Media->MediaId,
+                      1,
+                      GptSize,
+                      GptHeaderBuf
+                      );
+  if (EFI_ERROR (Status)) {
+    DEBUG ((EFI_D_ERROR, "ResizeGptHeader: ReadBlocks failed: %d\n", Status));
+    goto Exit;
+  }
+
+  GptHeader  = (EFI_PARTITION_TABLE_HEADER *)GptHeaderBuf;
+  GptEntries = GptHeaderBuf + BlockSize;
+
+  if (GptHeader->Header.Signature != EFI_PTAB_HEADER_ID) {
+    DEBUG ((EFI_D_ERROR, "Invalid GPT header signature: %.8a\n", GptHeader->Header.Signature));
+    Status = EFI_COMPROMISED_DATA;
+    goto Exit;
+  }
+
+  GptHeader->LastUsableLBA = BlockIo->Media->LastBlock - (MAX_PARTITION_ENTRIES_SIZE / BlockSize) - 1;
+  GptHeader->AlternateLBA  = BlockIo->Media->LastBlock;
+
+  Status = ResizePartitionEntry (GptEntries, GptHeader->NumberOfPartitionEntries, GptHeader->SizeOfPartitionEntry, GptHeader->LastUsableLBA, L"userdata");
+  if (EFI_ERROR (Status)) {
+    DEBUG ((EFI_D_ERROR, "ResizeGptHeader: ResizePartitionEntry failed: %d\n", Status));
+    goto Exit;
+  }
+
+  GptHeader->PartitionEntryArrayCRC32 = crc32 (
+                                          (const uint8_t *)GptEntries,
+                                          GptHeader->NumberOfPartitionEntries * GptHeader->SizeOfPartitionEntry
+                                          );
+  GptHeader->Header.CRC32 = 0;
+  GptHeader->Header.CRC32 = crc32 ((const uint8_t *)GptHeader, GptHeader->Header.HeaderSize);
+
+  Status = WriteToPartition (BlockIo, Handle, 512, GptSize, GptHeaderBuf);
+  if (EFI_ERROR (Status)) {
+    DEBUG ((EFI_D_ERROR, "ResizeGptHeader: WriteBlocks failed: %d\n", Status));
+    goto Exit;
+  }
+
+  gBS->DisconnectController (BlockIoHandle[0].Handle, NULL, NULL);
+  gBS->ConnectController (BlockIoHandle[0].Handle, NULL, NULL, TRUE);
+  Status = EFI_SUCCESS;
+
+Exit:
+  FreePool (GptHeaderBuf);
+  GptHeaderBuf = NULL;
+  GptHeader    = NULL;
+  GptEntries   = NULL;
+  return Status;
+}
+
+BOOLEAN
+ResizeGptCheck (
+  VOID
+  )
+{
+  HandleInfo             BlockIoHandle[MAX_HANDLEINF_LST_SIZE];
+  UINT32                 MaxHandles    = MAX_HANDLEINF_LST_SIZE;
+  EFI_BLOCK_IO_PROTOCOL  *BlockIo      = NULL;
+  UINT32                 BlockSize     = 0;
+  UINT64                 LastBlock     = 0;
+  UINT64                 AltGPTSize    = 0;
+  UINT64                 LastUsableLBA = 0;
+  EFI_PARTITION_ENTRY    PtnEntry;
+  EFI_STATUS             Status;
+
+  Status = GetStorageHandle (BlockIoHandle, &MaxHandles);
+  if (EFI_ERROR (Status) || (MaxHandles != 1)) {
+    DEBUG ((EFI_D_ERROR, "GetStorageHandle failed: %d, handles: %d\n", Status, MaxHandles));
+    return Status;
+  }
+
+  BlockIo       = BlockIoHandle[0].BlkIo;
+  BlockSize     = BlockIo->Media->BlockSize;
+  LastBlock     = BlockIo->Media->LastBlock;
+  AltGPTSize    = (MAX_PARTITION_ENTRIES_SIZE / BlockSize + 1);
+  LastUsableLBA = LastBlock - AltGPTSize;
+
+  GetPartitionEntrybyCount (gPartitionCount, &PtnEntry);
+
+  if ((StrCmp (PtnEntry.PartitionName, L"userdata") == 0) && (PtnEntry.EndingLBA != LastUsableLBA)) {
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
+EFI_STATUS
+ResizeGpt (
+  VOID
+  )
+{
+  EFI_STATUS  Status;
+
+  if (ResizeGptCheck () == FALSE) {
+    DEBUG ((EFI_D_INFO, "No need to resize GPT\n"));
+    return EFI_SUCCESS;
+  }
+
+  DEBUG ((
+    EFI_D_INFO,
+    "*************** Current partition Table Dump Start "
+    "*******************\n"
+    ));
+  PartitionDump ();
+  DEBUG ((
+    EFI_D_INFO,
+    "*************** Current partition Table Dump End "
+    "*******************\n"
+    ));
+
+  Status = ResizeGptHeader ();
+  if (EFI_ERROR (Status)) {
+    DEBUG ((EFI_D_ERROR, "ReadGptHeader failed\n"));
+    return Status;
+  }
+
+  Status = EnumeratePartitions ();
+  if (EFI_ERROR (Status)) {
+    DEBUG ((EFI_D_ERROR, "Enumeration of partitions failed\n"));
+    return Status;
+  }
+
+  UpdatePartitionEntries ();
+
+  DEBUG ((
+    EFI_D_INFO,
+    "*************** New partition Table Dump Start "
+    "*******************\n"
+    ));
+  PartitionDump ();
+  DEBUG ((
+    EFI_D_INFO,
+    "*************** New partition Table Dump End "
+    "*******************\n"
+    ));
+
   return Status;
 }
 

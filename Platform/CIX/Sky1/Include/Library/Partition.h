@@ -140,7 +140,8 @@ GetStorageHandle (
   UINT32      *MaxHandles
   );
 
-#define MAX_NUM_PARTITIONS  128
+#define MAX_NUM_PARTITIONS          128
+#define MAX_PARTITION_ENTRIES_SIZE  (128 * 128)
 
 struct StoragePartInfo {
   HandleInfo    HandleInfoList[MAX_NUM_PARTITIONS];
@@ -272,6 +273,11 @@ SetPartitionBackDoor (
 EFI_STATUS
 GetBlockSize (
   UINT32  *Size
+  );
+
+EFI_STATUS
+ResizeGpt (
+  VOID
   );
 
 VOID

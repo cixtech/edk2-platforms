@@ -154,9 +154,9 @@ Device (SUB0)
       Memory32Fixed (ReadWrite, 0x09010000, 0x4000)
       Memory32Fixed (ReadWrite, 0x09014000, 0x4000)
       Memory32Fixed (ReadWrite, 0x09018000, 0x8000)
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEC_U3_TYPEC_DRD_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEC_U3_TYPEC_DRD_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEC_U3_TYPEC_DRD_OTGIRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEC_U3_TYPEC_DRD_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEC_U3_TYPEC_DRD_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEC_U3_TYPEC_DRD_OTGIRQ_INTERRUPT_ID }
       Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEC_U3_TYPEC_DRD_IRQ_INTERRUPT_ID }
     })
 
@@ -331,9 +331,9 @@ Device (SUB1)
       Memory32Fixed (ReadWrite, 0x09080000, 0x4000)
       Memory32Fixed (ReadWrite, 0x09084000, 0x4000)
       Memory32Fixed (ReadWrite, 0x09088000, 0x8000)
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEC_HOST0_U3_TYPEC_HOST0_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEC_HOST0_U3_TYPEC_HOST0_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEC_HOST0_U3_TYPEC_HOST0_OTGIRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEC_HOST0_U3_TYPEC_HOST0_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEC_HOST0_U3_TYPEC_HOST0_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEC_HOST0_U3_TYPEC_HOST0_OTGIRQ_INTERRUPT_ID }
       Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEC_HOST0_U3_TYPEC_HOST0_IRQ_INTERRUPT_ID }
     })
 
@@ -508,9 +508,9 @@ Device (SUB2)
       Memory32Fixed (ReadWrite, 0x090f0000, 0x4000)
       Memory32Fixed (ReadWrite, 0x090f4000, 0x4000)
       Memory32Fixed (ReadWrite, 0x090f8000, 0x8000)
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEC_HOST1_U3_TYPEC_HOST1_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEC_HOST1_U3_TYPEC_HOST1_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEC_HOST1_U3_TYPEC_HOST1_OTGIRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEC_HOST1_U3_TYPEC_HOST1_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEC_HOST1_U3_TYPEC_HOST1_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEC_HOST1_U3_TYPEC_HOST1_OTGIRQ_INTERRUPT_ID }
       Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEC_HOST1_U3_TYPEC_HOST1_IRQ_INTERRUPT_ID }
     })
 
@@ -685,9 +685,9 @@ Device (SUB3)
       Memory32Fixed (ReadWrite, 0x09160000, 0x4000)
       Memory32Fixed (ReadWrite, 0x09164000, 0x4000)
       Memory32Fixed (ReadWrite, 0x09168000, 0x8000)
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEC_HOST2_U3_TYPEC_HOST2_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEC_HOST2_U3_TYPEC_HOST2_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEC_HOST2_U3_TYPEC_HOST2_OTGIRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEC_HOST2_U3_TYPEC_HOST2_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEC_HOST2_U3_TYPEC_HOST2_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEC_HOST2_U3_TYPEC_HOST2_OTGIRQ_INTERRUPT_ID }
       Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEC_HOST2_U3_TYPEC_HOST2_IRQ_INTERRUPT_ID }
     })
 
@@ -854,9 +854,9 @@ Device (SUB4)
       Memory32Fixed (ReadWrite, 0x091d0000, 0x4000)
       Memory32Fixed (ReadWrite, 0x091d4000, 0x4000)
       Memory32Fixed (ReadWrite, 0x091d8000, 0x8000)
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEA_CTL0_U3_TYPEA_CTL0_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEA_CTL0_U3_TYPEA_CTL0_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEA_CTL0_U3_TYPEA_CTL0_OTGIRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEA_CTL0_U3_TYPEA_CTL0_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEA_CTL0_U3_TYPEA_CTL0_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEA_CTL0_U3_TYPEA_CTL0_OTGIRQ_INTERRUPT_ID }
       Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEA_CTL0_U3_TYPEA_CTL0_IRQ_INTERRUPT_ID }
     })
 
@@ -944,9 +944,9 @@ Device (SUB5)
       Memory32Fixed (ReadWrite, 0x091e0000, 0x4000)
       Memory32Fixed (ReadWrite, 0x091e4000, 0x4000)
       Memory32Fixed (ReadWrite, 0x091e8000, 0x8000)
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEA_CTL1_U3_TYPEA_CTL1_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEA_CTL1_U3_TYPEA_CTL1_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB3_TYPEA_CTL1_U3_TYPEA_CTL1_OTGIRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEA_CTL1_U3_TYPEA_CTL1_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEA_CTL1_U3_TYPEA_CTL1_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEA_CTL1_U3_TYPEA_CTL1_OTGIRQ_INTERRUPT_ID }
       Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB3_TYPEA_CTL1_U3_TYPEA_CTL1_IRQ_INTERRUPT_ID }
     })
 
@@ -1095,9 +1095,9 @@ Device (HUB0) //High Speed USB 0, USB2.0
       Memory32Fixed (ReadWrite, 0x09260000, 0x4000)
       Memory32Fixed (ReadWrite, 0x09264000, 0x4000)
       Memory32Fixed (ReadWrite, 0x09268000, 0x8000)
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB2_HOST0_U2_HOST0_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB2_HOST0_U2_HOST0_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB2_HOST0_U2_HOST0_OTGIRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB2_HOST0_U2_HOST0_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB2_HOST0_U2_HOST0_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB2_HOST0_U2_HOST0_OTGIRQ_INTERRUPT_ID }
       Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB2_HOST0_U2_HOST0_IRQ_INTERRUPT_ID }
     })
 
@@ -1184,9 +1184,9 @@ Device (HUB1) //High Speed USB 1, USB2.0
       Memory32Fixed (ReadWrite, 0x09290000, 0x4000)
       Memory32Fixed (ReadWrite, 0x09294000, 0x4000)
       Memory32Fixed (ReadWrite, 0x09298000, 0x8000)
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB2_HOST1_U2_HOST1_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB2_HOST1_U2_HOST1_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB2_HOST1_U2_HOST1_OTGIRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB2_HOST1_U2_HOST1_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB2_HOST1_U2_HOST1_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB2_HOST1_U2_HOST1_OTGIRQ_INTERRUPT_ID }
       Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB2_HOST1_U2_HOST1_IRQ_INTERRUPT_ID }
     })
 
@@ -1297,9 +1297,9 @@ Device (HUB2) //High Speed USB 2, USB2.0
       Memory32Fixed (ReadWrite, 0x092c0000, 0x4000)
       Memory32Fixed (ReadWrite, 0x092c4000, 0x4000)
       Memory32Fixed (ReadWrite, 0x092c8000, 0x8000)
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB2_HOST2_U2_HOST2_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB2_HOST2_U2_HOST2_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB2_HOST2_U2_HOST2_OTGIRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB2_HOST2_U2_HOST2_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB2_HOST2_U2_HOST2_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB2_HOST2_U2_HOST2_OTGIRQ_INTERRUPT_ID }
       Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB2_HOST2_U2_HOST2_IRQ_INTERRUPT_ID }
     })
 
@@ -1399,9 +1399,9 @@ Device (HUB3) //High Speed USB 3, USB2.0
       Memory32Fixed (ReadWrite, 0x092f0000, 0x4000)
       Memory32Fixed (ReadWrite, 0x092f4000, 0x4000)
       Memory32Fixed (ReadWrite, 0x092f8000, 0x8000)
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB2_HOST3_U2_HOST3_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB2_HOST3_U2_HOST3_IRQ_INTERRUPT_ID }
-      Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { USB2_HOST3_U2_HOST3_OTGIRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB2_HOST3_U2_HOST3_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB2_HOST3_U2_HOST3_IRQ_INTERRUPT_ID }
+      Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB2_HOST3_U2_HOST3_OTGIRQ_INTERRUPT_ID }
       Interrupt (ResourceConsumer, Level, ActiveHigh, ExclusiveAndWake, 0, "\\_SB.PDC0") { USB2_HOST3_U2_HOST3_IRQ_INTERRUPT_ID }
     })
 

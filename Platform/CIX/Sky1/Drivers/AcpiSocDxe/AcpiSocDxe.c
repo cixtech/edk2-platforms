@@ -710,12 +710,11 @@ InitializeSystemAcpiRam (
   }
 
   pSystemGpnvArea[ARV_NPU_SUPPORT_INFO_OFFSET] = SupportInfoValue;
-
-  pSystemGpnvArea[ARV_DPU_00_SUPPORT_OFFSET] = IsIpHarvested (DpuCore0) ? 0 : 1;
-  pSystemGpnvArea[ARV_DPU_01_SUPPORT_OFFSET] = IsIpHarvested (DpuCore1) ? 0 : 1;
-  pSystemGpnvArea[ARV_DPU_02_SUPPORT_OFFSET] = IsIpHarvested (DpuCore2) ? 0 : 1;
-  pSystemGpnvArea[ARV_DPU_03_SUPPORT_OFFSET] = IsIpHarvested (DpuCore3) ? 0 : 1;
-  pSystemGpnvArea[ARV_DPU_04_SUPPORT_OFFSET] = IsIpHarvested (DpuCore4) ? 0 : 1;
+  pSystemGpnvArea[ARV_DPU_00_SUPPORT_OFFSET] = !ConfigData->Dpu.DpEnable[0] || IsIpHarvested (DpuCore0) ? 0 : 1;
+  pSystemGpnvArea[ARV_DPU_01_SUPPORT_OFFSET] = !ConfigData->Dpu.DpEnable[1] || IsIpHarvested (DpuCore1) ? 0 : 1;
+  pSystemGpnvArea[ARV_DPU_02_SUPPORT_OFFSET] = !ConfigData->Dpu.DpEnable[2] || IsIpHarvested (DpuCore2) ? 0 : 1;
+  pSystemGpnvArea[ARV_DPU_03_SUPPORT_OFFSET] = !ConfigData->Dpu.DpEnable[3] || IsIpHarvested (DpuCore3) ? 0 : 1;
+  pSystemGpnvArea[ARV_DPU_04_SUPPORT_OFFSET] = !ConfigData->Dpu.DpEnable[4] || IsIpHarvested (DpuCore4) ? 0 : 1;
   pSystemGpnvArea[ARV_AUDIO_SUPPORT_OFFSET]  = IsIpHarvested (Audio) ? 0 : 1;
   pSystemGpnvArea[ARV_ISP_SUPPORT_OFFSET]    = IsIpHarvested (Isp) ? 0 : 1;
 

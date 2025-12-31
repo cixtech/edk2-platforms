@@ -26,8 +26,8 @@ Device(HWMN){
     // Output: None
     //
     Method(SFAT, 0, Serialized){
-        // \_SB.EC0.SFAT()
-        \_SB.SPFA()
+        \_SB.EC0.SFAT()
+        // \_SB.SPFA()
     }
 
     //
@@ -37,8 +37,8 @@ Device(HWMN){
     // Output: None
     //
     Method(SFMT, 0, Serialized){
-        // \_SB.EC0.SFMT()
-        \_SB.SPFM()
+        \_SB.EC0.SFMT()
+        // \_SB.SPFM()
     }
 
     //
@@ -48,7 +48,36 @@ Device(HWMN){
     // Output: None
     //
     Method(SFPF, 0, Serialized){
-        // \_SB.EC0.SFPF()
-        \_SB.SPFP()
+        \_SB.EC0.SFPF()
+        // \_SB.SPFP()
     }
+
+  //
+  // Name: SFPW [Set the PWM duty of Fan]
+  // Description: Function to set the PWM duty of Fan
+  // Input:
+  //         Arg0 -> Duty cycle, PWM_MAX_DUTY = 100%
+  //         Arg1 -> pwm_type
+  //         Arg2 -> Type-specific index, or 0 if unique
+  // Output: Status(No zero may have some error in it)
+  //
+  Method(SFPW, 3, Serialized)
+  {
+    Local0 = \_SB.EC0.SFPW(Arg0, Arg1, Arg2)
+    Return(Local0)
+  }
+
+  //
+  // Name: GFPW [Get the PWM duty of Fan]
+  // Description: Function to get the PWM duty of Fan
+  // Input:
+  //         Arg0 -> pwm_type
+  //         Arg1 -> Type-specific index, or 0 if unique
+  // Output: Duty cycle, PWM_MAX_DUTY = 100% , 0xFFFFFFFF means error
+  //
+  Method(GFPW, 2, Serialized)
+  {
+    Local0 = \_SB.EC0.GFPW(Arg0, Arg1)
+    Return(Local0)
+  }
 }

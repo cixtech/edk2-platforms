@@ -73,13 +73,13 @@ suppressif TRUE;
       endoneof;
 endif;
       oneof varid     = PlatformSetupVar.PcieAspmMaxSupport[0],
-          prompt      = STRING_TOKEN(STR_PCIE_ASPM_MAX_PROMPT0),
-          help        = STRING_TOKEN(STR_PCIE_ASPM_MAX_HELP),
+          prompt      = STRING_TOKEN(STR_PCIE_ASPM_CONFIG_PROMPT),
+          help        = STRING_TOKEN(STR_PCIE_ASPM_CONFIG_HELP),
           default     = FixedPcdGet8 (PcdPcieRootPort0MaxAspmSupport),
           option text = STRING_TOKEN(STR_PCIE_ASPM_DISABLE),      value = 0, flags = RESET_REQUIRED;
-          option text = STRING_TOKEN(STR_PCIE_ASPM_L0S_STRING),   value = 1, flags = RESET_REQUIRED;
+          //option text = STRING_TOKEN(STR_PCIE_ASPM_L0S_STRING),   value = 1, flags = RESET_REQUIRED;
           option text = STRING_TOKEN(STR_PCIE_ASPM_L1_STRING),    value = 2, flags = RESET_REQUIRED;
-          option text = STRING_TOKEN(STR_PCIE_ASPM_L0SL1_STRING), value = 3, flags = RESET_REQUIRED;
+          //option text = STRING_TOKEN(STR_PCIE_ASPM_L0SL1_STRING), value = 3, flags = RESET_REQUIRED;
       endoneof;
 
       oneof varid     = PlatformSetupVar.PcieAspm[0],
@@ -172,13 +172,13 @@ suppressif TRUE;
       endoneof;
 endif;
       oneof varid     = PlatformSetupVar.PcieAspmMaxSupport[1],
-          prompt      = STRING_TOKEN(STR_PCIE_ASPM_MAX_PROMPT1),
-          help        = STRING_TOKEN(STR_PCIE_ASPM_MAX_HELP),
+          prompt      = STRING_TOKEN(STR_PCIE_ASPM_CONFIG_PROMPT),
+          help        = STRING_TOKEN(STR_PCIE_ASPM_CONFIG_HELP),
           default     = FixedPcdGet8 (PcdPcieRootPort1MaxAspmSupport),
           option text = STRING_TOKEN(STR_PCIE_ASPM_DISABLE),      value = 0, flags = RESET_REQUIRED;
-          option text = STRING_TOKEN(STR_PCIE_ASPM_L0S_STRING),   value = 1, flags = RESET_REQUIRED;
+          //option text = STRING_TOKEN(STR_PCIE_ASPM_L0S_STRING),   value = 1, flags = RESET_REQUIRED;
           option text = STRING_TOKEN(STR_PCIE_ASPM_L1_STRING),    value = 2, flags = RESET_REQUIRED;
-          option text = STRING_TOKEN(STR_PCIE_ASPM_L0SL1_STRING), value = 3, flags = RESET_REQUIRED;
+          //option text = STRING_TOKEN(STR_PCIE_ASPM_L0SL1_STRING), value = 3, flags = RESET_REQUIRED;
       endoneof;
 
       oneof varid     = PlatformSetupVar.PcieAspm[1],
@@ -269,13 +269,13 @@ suppressif TRUE;
       endoneof;
 endif;
       oneof varid     = PlatformSetupVar.PcieAspmMaxSupport[2],
-          prompt      = STRING_TOKEN(STR_PCIE_ASPM_MAX_PROMPT2),
-          help        = STRING_TOKEN(STR_PCIE_ASPM_MAX_HELP),
+          prompt      = STRING_TOKEN(STR_PCIE_ASPM_CONFIG_PROMPT),
+          help        = STRING_TOKEN(STR_PCIE_ASPM_CONFIG_HELP),
           default     = FixedPcdGet8 (PcdPcieRootPort2MaxAspmSupport),
           option text = STRING_TOKEN(STR_PCIE_ASPM_DISABLE),      value = 0, flags = RESET_REQUIRED;
-          option text = STRING_TOKEN(STR_PCIE_ASPM_L0S_STRING),   value = 1, flags = RESET_REQUIRED;
+          //option text = STRING_TOKEN(STR_PCIE_ASPM_L0S_STRING),   value = 1, flags = RESET_REQUIRED;
           option text = STRING_TOKEN(STR_PCIE_ASPM_L1_STRING),    value = 2, flags = RESET_REQUIRED;
-          option text = STRING_TOKEN(STR_PCIE_ASPM_L0SL1_STRING), value = 3, flags = RESET_REQUIRED;
+          //option text = STRING_TOKEN(STR_PCIE_ASPM_L0SL1_STRING), value = 3, flags = RESET_REQUIRED;
       endoneof;
 
       oneof varid     = PlatformSetupVar.PcieAspm[2],
@@ -365,13 +365,13 @@ suppressif TRUE;
       endoneof;
 endif;
       oneof varid     = PlatformSetupVar.PcieAspmMaxSupport[3],
-          prompt      = STRING_TOKEN(STR_PCIE_ASPM_MAX_PROMPT3),
-          help        = STRING_TOKEN(STR_PCIE_ASPM_MAX_HELP),
+          prompt      = STRING_TOKEN(STR_PCIE_ASPM_CONFIG_PROMPT),
+          help        = STRING_TOKEN(STR_PCIE_ASPM_CONFIG_HELP),
           default     = FixedPcdGet8 (PcdPcieRootPort3MaxAspmSupport),
           option text = STRING_TOKEN(STR_PCIE_ASPM_DISABLE),      value = 0, flags = RESET_REQUIRED;
-          option text = STRING_TOKEN(STR_PCIE_ASPM_L0S_STRING),   value = 1, flags = RESET_REQUIRED;
+          //option text = STRING_TOKEN(STR_PCIE_ASPM_L0S_STRING),   value = 1, flags = RESET_REQUIRED;
           option text = STRING_TOKEN(STR_PCIE_ASPM_L1_STRING),    value = 2, flags = RESET_REQUIRED;
-          option text = STRING_TOKEN(STR_PCIE_ASPM_L0SL1_STRING), value = 3, flags = RESET_REQUIRED;
+          //option text = STRING_TOKEN(STR_PCIE_ASPM_L0SL1_STRING), value = 3, flags = RESET_REQUIRED;
       endoneof;
 
       oneof varid     = PlatformSetupVar.PcieAspm[3],
@@ -461,13 +461,13 @@ suppressif TRUE;
       endoneof;
 endif;
       oneof varid     = PlatformSetupVar.PcieAspmMaxSupport[4],
-          prompt      = STRING_TOKEN(STR_PCIE_ASPM_MAX_PROMPT4),
-          help        = STRING_TOKEN(STR_PCIE_ASPM_MAX_HELP),
+          prompt      = STRING_TOKEN(STR_PCIE_ASPM_CONFIG_PROMPT),
+          help        = STRING_TOKEN(STR_PCIE_ASPM_CONFIG_HELP),
           default     = FixedPcdGet8 (PcdPcieRootPort4MaxAspmSupport),
           option text = STRING_TOKEN(STR_PCIE_ASPM_DISABLE),      value = 0, flags = RESET_REQUIRED;
-          option text = STRING_TOKEN(STR_PCIE_ASPM_L0S_STRING),   value = 1, flags = RESET_REQUIRED;
+          //option text = STRING_TOKEN(STR_PCIE_ASPM_L0S_STRING),   value = 1, flags = RESET_REQUIRED;
           option text = STRING_TOKEN(STR_PCIE_ASPM_L1_STRING),    value = 2, flags = RESET_REQUIRED;
-          option text = STRING_TOKEN(STR_PCIE_ASPM_L0SL1_STRING), value = 3, flags = RESET_REQUIRED;
+          //option text = STRING_TOKEN(STR_PCIE_ASPM_L0SL1_STRING), value = 3, flags = RESET_REQUIRED;
       endoneof;
 
       oneof varid     = PlatformSetupVar.PcieAspm[4],

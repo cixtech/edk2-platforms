@@ -96,8 +96,11 @@ InstallType45Structure (
     if (EFI_ERROR (Status)) {
       SmbiosType45->State = FirmwareInventoryStateUnknown;
       DEBUG ((DEBUG_ERROR, "GetFwVersion failed for type %d: %r\n", i, Status));
+      FwVerSize = 0;
     } else{
-      FwVerSize+=1; // Add 1 for the null terminator
+      // Calulate ascii size
+      DEBUG ((DEBUG_INFO, "%a %d Calulate StrLen...\n", __FUNCTION__, __LINE__));
+      FwVerSize = StrLen(FwVerBuff) + 1; // Add 1 for the null terminator
     }
     DEBUG ((DEBUG_INFO, "%a %d Sta:%r \n", __FUNCTION__, __LINE__, Status));
 

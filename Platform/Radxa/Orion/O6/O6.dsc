@@ -27,6 +27,7 @@
   SKUID_IDENTIFIER               = DEFAULT
   FLASH_DEFINITION               = Platform/Radxa/Orion/$(PLATFORM_NAME)/$(PLATFORM_NAME).fdf
   PCD_DYNAMIC_AS_DYNAMICEX       = TRUE
+  BUILD_NUMBER                   = 0x00000004
 
 !include  Platform/CIX/Sky1/Sky1Define.dsc.inc
 !include  Platform/Radxa/RadxaDefine.dsc.inc
@@ -45,7 +46,7 @@
   DEFINE DTB_UPDATE_ENABLE          = FALSE
   DEFINE SMBIOS_ENABLE              = FALSE
   DEFINE ACPI_ENABLE                = FALSE
-  DEFINE TOKEN_CONSOLE_PREF_SUPPORT = FALSE
+  DEFINE TOKEN_CONSOLE_PREF_SUPPORT = TRUE
   DEFINE FW_VERSION_ENABLE          = TRUE
   DEFINE SOC_PWR_CLK_RST_ENABLE     = TRUE
   DEFINE WATCH_DOG_ENABLE           = FALSE
@@ -82,7 +83,7 @@
   DEFINE BOOT_LOGO_ENABLE           = FALSE
   DEFINE GLOBAL_WATCHDOG_ENABLE     = TRUE
   DEFINE FUNC_BOOT_PERF_ENABLE      = TRUE
-  DEFINE CAPSULE_ENABLE             = FALSE
+  DEFINE CAPSULE_ENABLE             = TRUE
   DEFINE POWER_BUTTON_ENABLE        = TRUE
 
 !if $(COMPILE_FASTBOOT_LOAD) == nvme
@@ -147,7 +148,7 @@
 [LibraryClasses.common]
   PlatformConfigParamsHookLib|Platform/Radxa/Orion/O6/Library/PlatformConfigParamsHookLib/PlatformConfigParamsHookLib.inf
   PlatformEnvHookLib|Platform/Radxa/Orion/O6/Library/PlatformEnvHookLib/PlatformEnvHookLib.inf
-  RealTimeClockLib|Platform/Radxa/Orion/O6/Library/Hym8563RealTimeClockLib/Hym8563RealTimeClockLib.inf
+  RealTimeClockLib|Platform/Radxa/Library/Hym8563RealTimeClockLib/Hym8563RealTimeClockLib.inf
 
   PlatformBootHookLib|Platform/CIX/Sky1/Merak/Library/PlatformBootHookLib/PlatformBootHookLib.inf
 
@@ -168,6 +169,13 @@
 [Components.common]
 # Network stack
   !include NetworkPkg/Network.dsc.inc
+# This modification is to fix a PXE bug.
+# If the Code Base is upgraded, this modification will cause a compilation error and should be deleted.
+  NetworkPkg/UefiPxeBcDxe/UefiPxeBcDxe.inf {
+    <PcdsFixedAtBuild>
+      gEfiNetworkPkgTokenSpaceGuid.PcdIPv4PXESupport|TRUE
+      gEfiNetworkPkgTokenSpaceGuid.PcdIPv6PXESupport|TRUE
+  }
 
   Platform/CIX/Sky1/PrePi/PeiUniCore.inf
 !if $(SHELL_EMBEDDED_ENABLE) == TRUE
@@ -195,7 +203,7 @@
   Platform/CIX/Sky1/Drivers/DtbUpdateDxeSi/DtbUpdateDxe.inf
 !if $(ACPI_ENABLE) == TRUE
   Platform/Radxa/Orion/O6/Drivers/AcpiPlatfomTables/AcpiPlatfomTables.inf
-  Platform/Radxa/Orion/O6//Drivers/AcpiPlatformDxe/AcpiPlatformDxe.inf
+  Platform/Radxa/Drivers/AcpiPlatformDxe/AcpiPlatformDxe.inf
 !endif
 !if $(SMBIOS_ENABLE) == TRUE
   Platform/Radxa/Orion/O6/Drivers/PlatformSmbios/PlatformSmbios.inf
@@ -344,7 +352,7 @@
 
   # USBC0
   gCixTokenSpaceGuid.PcdUsbCDrdControl0Enable|TRUE
-  gCixTokenSpaceGuid.PcdUsbCDrdControl0DataRole|TRUE
+  gCixTokenSpaceGuid.PcdUsbCDrdControl0DataRole|FALSE
   # USBC1
   gCixTokenSpaceGuid.PcdUsbCControl0Enable|TRUE
   # USBC2
@@ -365,8 +373,8 @@
 
   gArmTokenSpaceGuid.PcdSystemMemorySize|0x400000000
   gEfiNetworkPkgTokenSpaceGuid.PcdNetworkStackSupport|FALSE
-  gEfiNetworkPkgTokenSpaceGuid.PcdIPv4PXESupport|FALSE
-  gEfiNetworkPkgTokenSpaceGuid.PcdIPv6PXESupport|FALSE
+  gEfiNetworkPkgTokenSpaceGuid.PcdIPv4PXESupport|TRUE
+  gEfiNetworkPkgTokenSpaceGuid.PcdIPv6PXESupport|TRUE
   gEfiNetworkPkgTokenSpaceGuid.PcdIPv4HttpSupport|TRUE
   gEfiNetworkPkgTokenSpaceGuid.PcdIPv6HttpSupport|TRUE
 
@@ -405,6 +413,16 @@
   gCixPlatformTokenSpaceGuid.PcdAcpiPrefPmProf|0x01  # Desktop
   gCixTokenSpaceGuid.PcdAcpiCsiDmaEnable|FALSE
 
+  # Change for SystemReady
+  gCixTokenSpaceGuid.PcdCpuCore2En|FALSE
+  gCixTokenSpaceGuid.PcdCpuCore3En|FALSE
+  gCixTokenSpaceGuid.PcdCpuCore4En|FALSE
+  gCixTokenSpaceGuid.PcdCpuCore5En|FALSE
+  gCixTokenSpaceGuid.PcdAcpiCpuLpiState|0x1
+  gCixTokenSpaceGuid.PcdAcpiCppcType|0x02
+  gCixTokenSpaceGuid.PcdStateAfterG3|0x0
+  gCixPlatformTokenSpaceGuid.PcdAcpiSpcrEnable|TRUE
+
 [PcdsDynamicDefault.common]
 
   gEmbeddedTokenSpaceGuid.PcdDmaDeviceLimit|0x47fffffff
@@ -415,4 +433,8 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdSetupVideoVerticalResolution|600
 
   gCixPlatformTokenSpaceGuid.PcdDynamicUint64Test|0x11111111
+
+!if $(COMPILE_SYSTEM_LOADER) == android
+  gCixPlatformTokenSpaceGuid.AndroidFastboot|TRUE
+!endif
 [PcdsDynamicHii.common.DEFAULT]

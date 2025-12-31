@@ -178,11 +178,11 @@
   gCixTokenSpaceGuid.PcdPcieRootPort3MaxSpeed|0x03|UINT8|0x00000213
   gCixTokenSpaceGuid.PcdPcieRootPort4MaxSpeed|0x03|UINT8|0x00000214
 #PCIe Max ASPM Support
-  gCixTokenSpaceGuid.PcdPcieRootPort0MaxAspmSupport|0x03|UINT8|0x00000215
-  gCixTokenSpaceGuid.PcdPcieRootPort1MaxAspmSupport|0x03|UINT8|0x00000216
-  gCixTokenSpaceGuid.PcdPcieRootPort2MaxAspmSupport|0x03|UINT8|0x00000217
-  gCixTokenSpaceGuid.PcdPcieRootPort3MaxAspmSupport|0x03|UINT8|0x00000218
-  gCixTokenSpaceGuid.PcdPcieRootPort4MaxAspmSupport|0x03|UINT8|0x00000219
+  gCixTokenSpaceGuid.PcdPcieRootPort0MaxAspmSupport|0x02|UINT8|0x00000215
+  gCixTokenSpaceGuid.PcdPcieRootPort1MaxAspmSupport|0x02|UINT8|0x00000216
+  gCixTokenSpaceGuid.PcdPcieRootPort2MaxAspmSupport|0x02|UINT8|0x00000217
+  gCixTokenSpaceGuid.PcdPcieRootPort3MaxAspmSupport|0x02|UINT8|0x00000218
+  gCixTokenSpaceGuid.PcdPcieRootPort4MaxAspmSupport|0x02|UINT8|0x00000219
 #PCIe ASPM Support
   gCixTokenSpaceGuid.PcdPcieRootPort0AspmSupport|0x00|UINT8|0x0000021A
   gCixTokenSpaceGuid.PcdPcieRootPort1AspmSupport|0x00|UINT8|0x0000021B
@@ -427,7 +427,7 @@
   #Misc
   gCixTokenSpaceGuid.PcdCixProcessorVersion|L"CIX P1"|VOID*|0x0003001
 
-  gCixTokenSpaceGuid.PcdAcpiCpuLpiState|0x01|UINT8|0x0000A001             # ACPI CPU LPI State, 0-disable, 1-LPI0, 2-LPI1, 3-LPI2
+  gCixTokenSpaceGuid.PcdAcpiCpuLpiState|0x03|UINT8|0x0000A001             # ACPI CPU LPI State, 0-disable, 1-LPI0, 2-LPI1, 3-LPI2
   gCixTokenSpaceGuid.PcdAcpiCppcType|0x01|UINT8|0x0000A002                # CPPC Interface Type, 0-disable, 1-fastchannel, 2-pcc
   gCixTokenSpaceGuid.PcdAcpiCsiDmaEnable|TRUE|BOOLEAN|0x0000A003
   gCixTokenSpaceGuid.PcdAcpiUart0Enable|TRUE|BOOLEAN|0x0000A004

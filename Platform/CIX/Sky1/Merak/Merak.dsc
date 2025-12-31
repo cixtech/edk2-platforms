@@ -81,6 +81,7 @@
   DEFINE FUNC_BOOT_PERF_ENABLE      = TRUE
   DEFINE POWER_BUTTON_ENABLE        = TRUE
   DEFINE DEBUG_MODE_SUPPORT         = TRUE
+  DEFINE CIX_GPNV_ENABLE            = TRUE
 
 !if $(COMPILE_FASTBOOT_LOAD) == nvme
   DEFINE PCIE_HOST_ENABLE           = TRUE
@@ -172,6 +173,13 @@
 [Components.common]
 # Network stack
   !include NetworkPkg/Network.dsc.inc
+# This modification is to fix a PXE bug.
+# If the Code Base is upgraded, this modification will cause a compilation error and should be deleted.
+  NetworkPkg/UefiPxeBcDxe/UefiPxeBcDxe.inf {
+    <PcdsFixedAtBuild>
+      gEfiNetworkPkgTokenSpaceGuid.PcdIPv4PXESupport|TRUE
+      gEfiNetworkPkgTokenSpaceGuid.PcdIPv6PXESupport|TRUE
+  }
 
   Platform/CIX/Sky1/PrePi/PeiUniCore.inf
 !if $(SHELL_EMBEDDED_ENABLE) == TRUE
@@ -283,6 +291,10 @@
 
 !if $(STMM_SUPPORT) == TRUE
   GCC:*_*_*_CC_FLAGS              = -DSTMM_SUPPORT
+!endif
+
+!if $(USERDATA_RESIZE) == enable
+  GCC:*_*_*_CC_FLAGS              = -DUSERDATA_RESIZE_SUPPORT
 !endif
 
 ################################################################################
