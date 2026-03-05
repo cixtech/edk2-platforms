@@ -15,7 +15,7 @@ Scope (\_SB.I2C2)
   Device (RTL5) {
     Name (_HID, "RTL5682")
     Name (_UID, 0x0)
-    Name (_STA, 0xF)
+    Name (_STA, 0xB)
     Name (_CRS, ResourceTemplate () {
       GpioInt(Edge, ActiveBoth, SharedAndWake, PullNone, 0,"\\_SB.GPI3",) { 10 }
       PinGroupFunction(Exclusive, 0x0, "\\_SB.MUX0", 0, "pinctrl_alc5682_irq", ResourceConsumer,)
@@ -46,7 +46,7 @@ Scope (\_SB.I2C2)
 Device (SNDC) {
   Name (_HID, "CIXH6070")
   Name (_UID, 0x0)
-  Name (_STA, 0xF)
+  Name (_STA, 0xB)
 
   Name (_CRS, ResourceTemplate () {
 //    // for alc1019

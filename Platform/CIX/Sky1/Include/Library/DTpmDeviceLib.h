@@ -2,6 +2,7 @@
   This library abstract how to access TPM2 hardware device.
 
 Copyright (c) 2013 - 2018, Intel Corporation. All rights reserved. <BR>
+Copyright 2026 Cix Technology Group Co., Ltd. All Rights Reserved.
 SPDX-License-Identifier: BSD-2-Clause-Patent
 
 **/
@@ -50,8 +51,6 @@ DTpmRequestUseTpm (
 /**
   This service register TPM2 device.
 
-  @param Tpm2Device  TPM2 device
-
   @retval EFI_SUCCESS          This TPM2 device is registered successfully.
   @retval EFI_UNSUPPORTED      System does not support register this TPM2 device.
   @retval EFI_ALREADY_STARTED  System already register this TPM2 device.
@@ -59,6 +58,19 @@ DTpmRequestUseTpm (
 EFI_STATUS
 EFIAPI
 DTpmRegisterTpm2DeviceLib (
+  VOID
+  );
+
+/**
+
+  @retval     EFI_SUCCESS  The register satisfies the check bit.
+  @retval     EFI_TIMEOUT  The register can't run into the expected status in time.
+  @retval     EFI_NOT_READY  The value of register is not valid
+  @retval     EFI_NOT_FOUND  The TPM is not found
+**/
+EFI_STATUS
+EFIAPI
+DTpmActiveLocality (
   VOID
   );
 

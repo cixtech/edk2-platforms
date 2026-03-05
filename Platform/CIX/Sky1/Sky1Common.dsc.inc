@@ -279,7 +279,6 @@
   Tcg2PpVendorLib|SecurityPkg/Library/Tcg2PpVendorLibNull/Tcg2PpVendorLibNull.inf
   TpmMeasurementLib|SecurityPkg/Library/DxeTpmMeasurementLib/DxeTpmMeasurementLib.inf
   TpmPlatformHierarchyLib|SecurityPkg/Library/PeiDxeTpmPlatformHierarchyLib/PeiDxeTpmPlatformHierarchyLib.inf
-  OpteeClientApiLib|Platform/CIX/Sky1/Library/OpteeClientApiLib/OpteeClientApiLib.inf
   Tpm2DeviceLib|Platform/CIX/Sky1/Library/Tpm2DeviceLib/Tpm2DeviceLib.inf
   !if $(DTPM_SUPPORT) == TRUE
     DTpmDeviceLib|Platform/CIX/Sky1/Library/DTpmDeviceLib/DTpmDeviceLib.inf
@@ -287,6 +286,7 @@
     DTpmDeviceLib|Platform/CIX/Sky1/Library/DTpmDeviceLibNull/DTpmDeviceLibNull.inf
   !endif
   !if $(FTPM_SUPPORT) == TRUE
+    OpteeClientApiLib|Platform/CIX/Sky1/Library/OpteeClientApiLib/OpteeClientApiLib.inf
     FTpmDeviceLib|Platform/CIX/Sky1/Library/FTpmDeviceLib/FTpmDeviceLib.inf
   !else
     FTpmDeviceLib|Platform/CIX/Sky1/Library/FTpmDeviceLibNull/FTpmDeviceLibNull.inf
@@ -863,7 +863,7 @@
 
 !if $(SOC_USB_DEVICE_ENABLE) == TRUE
   Platform/CIX/Sky1/Drivers/UsbDeviceControlDxe/UsbDeviceControlDxe.inf
-  Platform/CIX/Sky1/Application/Fastboot/Fastboot.inf 
+  Platform/CIX/Sky1/Application/Fastboot/Fastboot.inf
   !if $(SOC_CDNSP_ENABLE) == TRUE
     Silicon/CIX/Sky1/Drivers/CdnspDxe/CdnspDxe.inf
   !endif
@@ -1011,9 +1011,9 @@ ShellPkg/DynamicCommand/HttpDynamicCommand/HttpDynamicCommand.inf {
   MdeModulePkg/Application/VariableInfo/VariableInfo.inf
 !endif
 !if $(COMPILE_SYSTEM_LOADER) == android
-  Platform/CIX/Sky1/Application/LinuxLoader/LinuxLoader.inf 
-  Platform/CIX/Sky1/Application/ABSelect/ABSelect.inf 
-  Platform/CIX/Sky1/Drivers/AndroidConfigDxe/AndroidConfigDxe.inf 
+  Platform/CIX/Sky1/Application/LinuxLoader/LinuxLoader.inf
+  Platform/CIX/Sky1/Application/ABSelect/ABSelect.inf
+  Platform/CIX/Sky1/Drivers/AndroidConfigDxe/AndroidConfigDxe.inf
 !endif
 
 !if $(PD_FW_UPDATE_ENABLE) == TRUE
@@ -1031,7 +1031,9 @@ ShellPkg/DynamicCommand/HttpDynamicCommand/HttpDynamicCommand.inf {
 !endif
 
 !if $(DTPM_SUPPORT) == TRUE || $(FTPM_SUPPORT) == TRUE
-  Platform/CIX/Sky1/Drivers/FTPMDxe/FTPMProtocol.inf
+  !if $(FTPM_SUPPORT) == TRUE
+    Platform/CIX/Sky1/Drivers/FTPMDxe/FTPMProtocol.inf
+  !endif
   Platform/CIX/Sky1/Drivers/Tcg2Acpi/Tcg2Acpi.inf
   Platform/CIX/Sky1/Drivers/TPMVariableDxe/TPMVariableDxe.inf
   SecurityPkg/Tcg/Tcg2Dxe/Tcg2Dxe.inf {

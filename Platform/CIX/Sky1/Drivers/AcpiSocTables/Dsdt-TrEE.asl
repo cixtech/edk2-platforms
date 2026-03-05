@@ -13,7 +13,7 @@ Device (TREE) {
   Name (_HID, "CIXHA023")
   Name (_UID, 0)
   Method (_STA) {
-    Return (0xF)
+    Return (0xB)
   }
   Method (_CRS, 0x0, NotSerialized) {
     Name (RBUF, ResourceTemplate () {

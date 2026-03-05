@@ -15,9 +15,40 @@ Field (DBGR, DWordAcc, NoLock, Preserve) {
 Device(UCRU) {
   Name (_HID, "CIXHA018")
   Name (_UID, 0x2)
-  Name (_STA, 0xf)
+  Name (_STA, 0xB)
   Name (_CRS, ResourceTemplate () {
     Memory32Fixed (ReadWrite, 0x0416009c, 0x80)
+  })
+}
+
+Device (COM2) {
+  Name (_HID, "ARMH0011")
+  Name (_UID, 0x3)
+
+  Method (_STA)
+  {
+    If(FixedPcdGetBool(PcdAcpiUart2Enable)){
+      Return (0xF)
+    } else {
+      Return (0x0)
+    }
+  }
+
+  Name (_CRS, ResourceTemplate () {
+    Memory32Fixed (ReadWrite, UART2_BASE, UART2_SIZE)
+    Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { FCH_INTR_UART2_INTERRUPT_ID }
+    PinGroupFunction(Exclusive, 0x0, "\\_SB.MUX0", 0, "pinctrl_fch_uart2", ResourceConsumer,)
+  })
+
+  Name (_DSD, Package () {
+    ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
+    Package () {
+          Package () { "uartclk", UCLK },
+        }
+  })
+  Name (CLKT, Package() {
+    Package() {CLK_TREE_FCH_UART2_APB, "apb_pclk", \_SB.COM2},
+    Package() {CLK_TREE_FCH_UART2_FUNC, "uartclk", \_SB.COM2},
   })
 }
 
@@ -58,7 +89,14 @@ Device (COM0) {
 }
 
 Device (COM1) {
-  Name (_HID, "ARMH0011")
+  Method (_HID){
+    If(FixedPcdGetBool(PcdAcpiCIXUart1DriverEnable)){
+      Return ("CIXH2010")
+    } else {
+      Return ("ARMH0011")
+    }
+  }
+
   Name (_UID, 0x2)
 
   Method (_STA)
@@ -90,37 +128,6 @@ Device (COM1) {
   Name (CLKT, Package() {
     Package() {CLK_TREE_FCH_UART1_APB, "apb_pclk", \_SB.COM1},
     Package() {CLK_TREE_FCH_UART1_FUNC, "uartclk", \_SB.COM1},
-  })
-}
-
-Device (COM2) {
-  Name (_HID, "ARMH0011")
-  Name (_UID, 0x3)
-
-  Method (_STA)
-  {
-    If(FixedPcdGetBool(PcdAcpiUart2Enable)){
-      Return (0xF)
-    } else {
-      Return (0x0)
-    }
-  }
-
-  Name (_CRS, ResourceTemplate () {
-    Memory32Fixed (ReadWrite, UART2_BASE, UART2_SIZE)
-    Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive) { FCH_INTR_UART2_INTERRUPT_ID }
-    PinGroupFunction(Exclusive, 0x0, "\\_SB.MUX0", 0, "pinctrl_fch_uart2", ResourceConsumer,)
-  })
-
-  Name (_DSD, Package () {
-    ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
-    Package () {
-          Package () { "uartclk", UCLK },
-        }
-  })
-  Name (CLKT, Package() {
-    Package() {CLK_TREE_FCH_UART2_APB, "apb_pclk", \_SB.COM2},
-    Package() {CLK_TREE_FCH_UART2_FUNC, "uartclk", \_SB.COM2},
   })
 }
 

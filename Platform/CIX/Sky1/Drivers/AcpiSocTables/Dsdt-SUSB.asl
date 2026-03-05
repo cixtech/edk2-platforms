@@ -214,7 +214,12 @@ Device (UCP0) //USB 3.0 PHY0
   Name (_HID, "CIXH2033")     // _HID: Hardware ID
   Name (_UID, 0x00)           // _UID: Unique ID
   Name (_CCA, 0x00)           // _CCA: Cache Coherency Attribute
-  Name (_STA, 0x0B)           // _STA: Device status
+  Name (_STA, 0x0F)           // _STA: Device status
+
+  Name (_DEP, Package ()
+  {
+      \_SB.PEP0
+  })
 
   Name (_CRS, ResourceTemplate () {
     Memory32Fixed (ReadWrite, 0x09030000, 0x40000)
@@ -391,7 +396,12 @@ Device (UCP1) //USB 3.0 PHY0
   Name (_HID, "CIXH2033")     // _HID: Hardware ID
   Name (_UID, 0x01)           // _UID: Unique ID
   Name (_CCA, 0x00)           // _CCA: Cache Coherency Attribute
-  Name (_STA, 0x0B)           // _STA: Device status
+  Name (_STA, 0x0F)           // _STA: Device status
+
+  Name (_DEP, Package ()
+  {
+      \_SB.PEP0
+  })
 
   Name (_CRS, ResourceTemplate () {
     Memory32Fixed (ReadWrite, 0x090A0000, 0x40000)
@@ -566,9 +576,14 @@ Device (U2P8) //USB 2.0 PHY8
 Device (UCP2) //USB 3.0 PHY0
 {
   Name (_HID, "CIXH2033")     // _HID: Hardware ID
-  Name (_UID, 0x02)           // _UID: Unique ID
+  Name (_UID, 0x03)           // _UID: Unique ID
   Name (_CCA, 0x00)           // _CCA: Cache Coherency Attribute
-  Name (_STA, 0x0B)           // _STA: Device status
+  Name (_STA, 0x0F)           // _STA: Device status
+
+  Name (_DEP, Package ()
+  {
+      \_SB.PEP0
+  })
 
   Name (_CRS, ResourceTemplate () {
     Memory32Fixed (ReadWrite, 0x09110000, 0x40000)
@@ -743,9 +758,14 @@ Device (U2P9) //USB 2.0 PHY9
 Device (UCP3) //USB 3.0 PHY0
 {
   Name (_HID, "CIXH2033")     // _HID: Hardware ID
-  Name (_UID, 0x03)           // _UID: Unique ID
+  Name (_UID, 0x04)           // _UID: Unique ID
   Name (_CCA, 0x00)           // _CCA: Cache Coherency Attribute
-  Name (_STA, 0x0B)           // _STA: Device status
+  Name (_STA, 0x0F)           // _STA: Device status
+
+  Name (_DEP, Package ()
+  {
+      \_SB.PEP0
+  })
 
   Name (_CRS, ResourceTemplate () {
     Memory32Fixed (ReadWrite, 0x09180000, 0x40000)

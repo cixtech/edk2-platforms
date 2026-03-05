@@ -2,7 +2,7 @@
   HII Config Access protocol implementation of TCG2 configuration module.
   NOTE: This module is only for reference only, each platform should have its own setup page.
 
-Copyright 2024 Cix Technology Group Co., Ltd. All Rights Reserved.
+Copyright 2026 Cix Technology Group Co., Ltd. All Rights Reserved.
 Copyright (c) 2015 - 2018, Intel Corporation. All rights reserved.<BR>
 (C) Copyright 2018 Hewlett Packard Enterprise Development LP<BR>
 SPDX-License-Identifier: BSD-2-Clause-Patent
@@ -15,6 +15,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 #include <Library/Tpm2DeviceLib.h>
 #include <Library/IoLib.h>
 #include <Library/Tpm2Fifo.h>
+#include <Library/DTpmDeviceLib.h>
 
 #include <Guid/TpmInstance.h>
 
@@ -77,7 +78,7 @@ GetPtpInterfaceWithSPI (
   UINT32      locality      = 0;
 
   // first check if locality is active FIFO.activeLocality == 1
-  Status = Tpm2ActiveLocality ();
+  Status = DTpmActiveLocality ();
   if (EFI_ERROR (Status)) {
     DEBUG ((
       DEBUG_ERROR,
@@ -272,7 +273,7 @@ SetPtpInterfaceWithSPI (
   }
 
   // first check if locality is active FIFO.activeLocality == 1
-  Status = Tpm2ActiveLocality ();
+  Status = DTpmActiveLocality ();
   if (EFI_ERROR (Status)) {
     DEBUG ((
       DEBUG_ERROR,

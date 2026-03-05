@@ -30,7 +30,7 @@ EFI_ACPI_TABLE_PROTOCOL         *AcpiTableProtocol = NULL;
 static EFI_ACPI_SDT_PROTOCOL    *mAcpiSdt          = NULL;
 static EFI_ACPI_TABLE_PROTOCOL  *mAcpiTable        = NULL;
 
-ACPI_FUNCTION_ON_READ_TO_BOOT_HOOK  mAcpiFunctionOReadyToBootHook[] = { InstallAcpiOnReadyToBoot, SpcrDisable, UpdateAcpiGpnv, NULL };
+ACPI_FUNCTION_ON_READ_TO_BOOT_HOOK  mAcpiFunctionOReadyToBootHook[] = { InstallAcpiOnReadyToBoot, SpcrDisable, UpdateAcpiGpnv, UpdateGTDTFlags, NULL };
 
 EFI_ACPI_MEMORY_MAPPED_CONFIGURATION_BASE_ADDRESS_TABLE_HEADER  McfgHeader = {
   {
@@ -433,6 +433,81 @@ UpdateAcpiGpnv (
     DEBUG ((EFI_D_ERROR, "Update DSDT GNVL failed, Status=%r\n", Status));
   }
 
+  return Status;
+}
+
+EFI_STATUS
+EFIAPI
+UpdateGTDTFlags (
+  VOID
+  )
+{
+  EFI_STATUS                                        Status;
+  CIX_CONFIG_PARAMS_MANAGE_PROTOCOL                *ConfigManage;
+  UINT32                                            TimerFlags;
+
+  EFI_ACPI_DESCRIPTION_HEADER                      *Table = NULL;
+  EFI_ACPI_TABLE_PROTOCOL                          *pAcpiTable    = NULL;
+  EFI_ACPI_6_4_GENERIC_TIMER_DESCRIPTION_TABLE     *Gtdt         = NULL;
+  UINTN                                             Handle        = 0;
+
+  Status = gBS->LocateProtocol (
+                  &gCixConfigParamsManageProtocolGuid,
+                  NULL,
+                  (VOID **)&ConfigManage
+                  );
+  if (EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "%a: config parameters invalid %r\n", __FUNCTION__, Status));
+  }
+
+  if (pPlatformAcpiConfigProtocol == NULL) {
+    DEBUG ((DEBUG_ERROR, "%a: Not find pPlatformAcpiConfigProtocol\n", __FUNCTION__));
+    return EFI_NOT_FOUND;
+  }
+
+  // Check if GTDT Table Exist
+  Status = pPlatformAcpiConfigProtocol->GetAcpiTableBySignature (
+                                          pPlatformAcpiConfigProtocol,
+                                          EFI_ACPI_6_4_GENERIC_TIMER_DESCRIPTION_TABLE_SIGNATURE,
+                                          (EFI_ACPI_DESCRIPTION_HEADER **)&Table,
+                                          &Handle
+                                          );
+
+  if (EFI_ERROR (Status)) {
+    DEBUG ((EFI_D_ERROR, "GetAcpiTableBySignature 'GTDT' failed"));
+    return EFI_NOT_FOUND;
+  }
+
+  pAcpiTable = pPlatformAcpiConfigProtocol->pAcpiTableProtocol;
+
+  if (ConfigManage->Data->Cpu.LpiState < 0x2) {
+    TimerFlags = EFI_ACPI_6_4_GTDT_TIMER_FLAG_TIMER_INTERRUPT_POLARITY | EFI_ACPI_6_4_GTDT_TIMER_FLAG_ALWAYS_ON_CAPABILITY;
+  } else {
+    TimerFlags = EFI_ACPI_6_4_GTDT_TIMER_FLAG_TIMER_INTERRUPT_POLARITY;
+  }
+
+  Gtdt = (EFI_ACPI_6_4_GENERIC_TIMER_DESCRIPTION_TABLE *)Table;
+
+  Gtdt->SecurePL1TimerFlags = TimerFlags;
+  Gtdt->NonSecurePL1TimerFlags = TimerFlags;
+  Gtdt->VirtualTimerFlags = TimerFlags;
+  Gtdt->NonSecurePL2TimerFlags = TimerFlags;
+  Gtdt->VirtualPL2TimerFlags = TimerFlags;
+
+  Status = pAcpiTable->UninstallAcpiTable (
+                             pAcpiTable,
+                             Handle
+                             );
+
+  Handle = 0;
+  Status = pAcpiTable->InstallAcpiTable (
+                          pAcpiTable,
+                          Table,
+                          Table->Length,
+                          &Handle
+                          );
+
+  FreePool (Table);
   return Status;
 }
 

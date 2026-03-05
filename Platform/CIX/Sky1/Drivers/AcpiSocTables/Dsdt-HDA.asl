@@ -12,7 +12,7 @@ Device (HDA) {
 
   Method (_STA, 0x0, Serialized) {
     If(\_SB.GETV(ARV_AUDIO_SUPPORT_OFFSET)){
-        Return (0xF)
+        Return (0xB)
     } else {
         Return (0x0)
     }

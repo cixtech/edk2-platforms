@@ -160,6 +160,7 @@
   gCixPlatformTokenSpaceGuid.PcdAcpiGpio4IoMask|0x00000000|UINT32|0x0000A00A
   gCixPlatformTokenSpaceGuid.PcdAcpiGpio5IoMask|0x00000000|UINT32|0x0000A00B
   gCixPlatformTokenSpaceGuid.PcdAcpiPrefPmProf|0x02|UINT8|0x0000A00C # 0: Unspecified, 1: Desktop, 2: Mobile, 3: Workstation, 4: Enterprise Server, 5: SOHO Server, 6: Appliance PC, 7: Performance Server, 8: Tablet, >8: Reserved
+  gCixTokenSpaceGuid.PcdAcpiCIXUart1DriverEnable|TRUE|BOOLEAN|0x0000A00D
 
   #RTC Wakeup
   gCixPlatformTokenSpaceGuid.PcdRtcWakeup|0x00|UINT8|0x00002001

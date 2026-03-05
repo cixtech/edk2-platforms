@@ -96,7 +96,7 @@ Scope (\_SB.I2C1)
   Device (PD10) {
     Name (_HID, "CIXH200D")
     Name (_UID, 0x0)
-    Name (_STA, 0xF)
+    Name (_STA, 0xB)
     Name (_CRS, ResourceTemplate () {
       I2cSerialBusV2 (0x30,
                       ControllerInitiated,
@@ -108,7 +108,7 @@ Scope (\_SB.I2C1)
                       ,
                       Exclusive
                       ,)
-      GpioInt(Level, ActiveLow, Exclusive, PullUp, , "\\_SB.GPI4") { 8 }
+      GpioInt(Level, ActiveLow, Shared, PullUp, , "\\_SB.GPI4") { 8 }
     })
     Name (_DSD, Package () {
           ToUUID ("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
@@ -123,7 +123,7 @@ Scope (\_SB.I2C1)
   Device (PD11) {
     Name (_HID, "CIXH200D")
     Name (_UID, 0x1)
-    Name (_STA, 0xF)
+    Name (_STA, 0xB)
     Name (_CRS, ResourceTemplate () {
       I2cSerialBusV2 (0x31,
                       ControllerInitiated,
@@ -135,7 +135,7 @@ Scope (\_SB.I2C1)
                       ,
                       Exclusive
                       ,)
-      GpioInt(Level, ActiveLow, Exclusive, PullUp, , "\\_SB.GPI4") { 8 }
+      GpioInt(Level, ActiveLow, Shared, PullUp, , "\\_SB.GPI4") { 8 }
     })
     Name (_DSD, Package () {
           ToUUID ("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
@@ -153,7 +153,7 @@ Scope (\_SB.I2C7)
   Device (PD00) {
     Name (_HID, "CIXH200D")
     Name (_UID, 0x1)
-    Name (_STA, 0xF)
+    Name (_STA, 0xB)
     Name (_CRS, ResourceTemplate () {
       I2cSerialBusV2 (0x30,
                       ControllerInitiated,
@@ -165,7 +165,7 @@ Scope (\_SB.I2C7)
                       ,
                       Exclusive
                       ,)
-      GpioInt(Level, ActiveLow, Exclusive, PullUp, , "\\_SB.GPI4") { 7 }
+      GpioInt(Level, ActiveLow, Shared, PullUp, , "\\_SB.GPI4") { 7 }
     })
     Name (_DSD, Package () {
           ToUUID ("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
@@ -180,7 +180,7 @@ Scope (\_SB.I2C7)
   Device (PD01) {
     Name (_HID, "CIXH200D")
     Name (_UID, 0x2)
-    Name (_STA, 0xF)
+    Name (_STA, 0xB)
     Name (_CRS, ResourceTemplate () {
       I2cSerialBusV2 (0x31,
                       ControllerInitiated,
@@ -192,7 +192,7 @@ Scope (\_SB.I2C7)
                       ,
                       Exclusive
                       ,)
-      GpioInt(Level, ActiveLow, Exclusive, PullUp, , "\\_SB.GPI4") { 7 }
+      GpioInt(Level, ActiveLow, Shared, PullUp, , "\\_SB.GPI4") { 7 }
     })
     Name (_DSD, Package () {
           ToUUID ("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),

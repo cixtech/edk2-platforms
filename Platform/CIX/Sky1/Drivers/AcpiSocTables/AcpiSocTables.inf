@@ -111,3 +111,4 @@
   gCixTokenSpaceGuid.PcdAcpiI2s9Enable
 
   gCixPlatformTokenSpaceGuid.PcdTpm2AcpiBufferBase
+  gCixTokenSpaceGuid.PcdAcpiCIXUart1DriverEnable

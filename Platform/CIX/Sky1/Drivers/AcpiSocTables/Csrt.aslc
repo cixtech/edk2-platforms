@@ -90,8 +90,31 @@ typedef struct
   ACPI_CSRT_SHARED_INFO ResDmaControllerInfo;
 } DMA_RES_GROUP;
 
+//------------------------------------------------------------------------
+// Always on timer Resource Group
+//------------------------------------------------------------------------
+typedef struct
+{
+  UINT64 TimerBaseAddress;
+  UINT32 TimerSize;
+  UINT32 TimerGSIV;
+  UINT32 TimerFlags;
+} AON_TIMER_VENDOR_DATA;
+
+typedef struct
+{
+  EFI_ACPI_CSRT_RESOURCE_DESCRIPTOR_HEADER AonTimerRdHeader;
+  AON_TIMER_VENDOR_DATA AonTimerVendorData;
+} RD_AON_TIMER;
+
+typedef struct
+{
+  EFI_ACPI_CSRT_RESOURCE_GROUP_HEADER ResAonTimerGroupHeader;
+  RD_AON_TIMER ResAonTimerController;
+} AON_TIMER_RES_GROUP;
+
 //----------------------------------------------------------------------------
-// CSRT table structure - current revision only includes DMA
+// CSRT table structure
 //----------------------------------------------------------------------------
 typedef struct
 {
@@ -100,7 +123,7 @@ typedef struct
 
   // DMA Controller Resource
   DMA_RES_GROUP DmaResGroup[DMA_CONTROLLER_NUM];
-
+  AON_TIMER_RES_GROUP AonTimerResGroup;
 } EFI_ACPI_CSRT_TABLE;
 
 EFI_ACPI_CSRT_TABLE Csrt =
@@ -171,6 +194,33 @@ EFI_ACPI_CSRT_TABLE Csrt =
         0,                               // MaxBlockSize
       },
     }, // End DMA Resource group 1
+  },
+  {
+      // AON Timer Resource Group Header
+      {
+        sizeof (AON_TIMER_RES_GROUP),    // Resource Group Length
+        EFI_ACPI_VENDOR_ID,              // VendorId
+        0,                               // SubvendorId
+        2,                               // DeviceId 0
+        0,                               // SubdeviceId
+        0,                               // Revision
+        0,                               // Reserved
+        0                                // SharedInfoLength
+      },
+      {
+        {
+          sizeof (RD_AON_TIMER),                           // Length of this Resource Descriptor
+          EFI_ACPI_CSRT_RESOURCE_TYPE_TIMER,               // Type for this resource
+          0,                                               // Subtype for this resource
+          0,                                               // UID
+        },
+        {
+          0x04116000,
+          0x2000,
+          502,
+          0,
+        },
+    },
   },
 };
 

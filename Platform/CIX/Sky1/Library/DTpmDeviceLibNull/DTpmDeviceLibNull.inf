@@ -1,0 +1,42 @@
+#/** @file
+#
+# Copyright 2026 Cix Technology Group Co., Ltd. All Rights Reserved.
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#
+#**/
+
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = DTpmDeviceLib
+  FILE_GUID                      = 5AF7CF29-B45F-25D7-50E6-A8BB7D1E9BD7
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = DTpmDeviceLib | DXE_DRIVER DXE_SMM_DRIVER
+  CONSTRUCTOR                    = DTpmDeviceLibConstructor
+
+[Sources.common]
+  DTpmDeviceLibNull.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  SecurityPkg/SecurityPkg.dec
+  Silicon/CIX/CixSiliconCommonPkg/CixSiliconCommonPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  PcdLib
+  UefiBootServicesTableLib
+  TimerLib
+
+
+[Guids]
+
+[Pcd]
+
+[Protocols]
+
+[Depex]
+  TRUE

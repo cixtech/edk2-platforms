@@ -1,0 +1,50 @@
+#/** @file
+#
+#
+# Copyright (c) 2007 - 2018, Intel Corporation. All rights reserved.<BR>
+# Copyright 2026 Cix Technology Group Co., Ltd. All Rights Reserved.
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#
+#
+#
+#**/
+
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = DTpmDeviceLib
+  FILE_GUID                      = 8E3B7D9C-B795-877E-E440-41DED31B68F1
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = DTpmDeviceLib | DXE_DRIVER DXE_SMM_DRIVER
+  CONSTRUCTOR                    = DTpmDeviceLibConstructor
+
+[Sources.common]
+  DTpmDeviceLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  SecurityPkg/SecurityPkg.dec
+  Platform/CIX/Sky1/Sky1.dec
+  Silicon/CIX/Sky1/CixPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  PcdLib
+  UefiBootServicesTableLib
+  TimerLib
+
+
+[Guids]
+
+[Pcd]
+  gCixPlatformTokenSpaceGuid.PcdDTPMSpiBus
+  gCixPlatformTokenSpaceGuid.PcdDTPMSpiChipSelect
+
+[Protocols]
+  gCixSpiHostProtocolGuid
+
+[Depex]
+  gCixSpiHostProtocolGuid

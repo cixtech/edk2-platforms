@@ -73,6 +73,12 @@ UpdateAcpiGpnv (
   VOID
   );
 
+EFI_STATUS
+EFIAPI
+UpdateGTDTFlags (
+  VOID
+  );
+
 typedef EFI_STATUS (*ACPI_FUNCTION_ON_READ_TO_BOOT_HOOK)(
   void
   );

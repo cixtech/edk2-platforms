@@ -11,7 +11,7 @@ Device (DTPM) {
   Name (_HID, "MSFT0101")
   Name (_CID, "MSFT0101")
   Name (_UID, 1)
-  Name (_STA, 0xF)
+  Name (_STA, 0xB)
 
   Method (_CRS, 0x0, NotSerialized) {
     Name (RBUF, ResourceTemplate () {
